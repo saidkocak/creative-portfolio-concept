@@ -16,7 +16,7 @@ const CustomControls: React.FC<CustomControlsProps> = ({
   const previousZRef = useRef<number | null>(null);
   const scroll = useScroll();
   const maxZ = 3;
-  const minZ = 3 - 0.5 * (itemsCount - 1);
+  const minZ = 3 - 0.8 * (itemsCount - 1);
   const factor = 0.05;
 
   useFrame((state, delta) => {

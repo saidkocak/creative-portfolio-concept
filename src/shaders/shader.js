@@ -32,7 +32,7 @@ varying vec2 vUv;
 void main() {
   vec4 color = texture2D(uTexture, vUv);
 
-  // Use full opacity without any alpha masking for sharp rectangular edges
+  // Clean, simple rendering without glass effects
   gl_FragColor = vec4(color.xyz, uOpacity);
 }
 `;

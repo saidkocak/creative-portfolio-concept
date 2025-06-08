@@ -4,9 +4,16 @@
 
 body,
 html {
-  background-color: #f9fafb;
+  background-color: #fafafa;
   color: #171717;
   overflow: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark body,
+.dark html {
+  background-color: #161819;
+  color: #ffffff;
 }
 
 /* SCROLLBAR */

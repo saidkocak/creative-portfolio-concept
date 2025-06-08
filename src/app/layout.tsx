@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Records • Visualize & share your monthly top tracks",
+  title: "Tamirci Architects",
   description:
-    "Records is a tool that lets you visualize and share your monthly top tracks on Spotify.",
+    "Tamirci Architects is a architecture studio based in Istanbul, Turkey.",
   icons: "/img/logoicon.svg",
 };
 
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>{children}</body>
+      <body className="antialiased">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

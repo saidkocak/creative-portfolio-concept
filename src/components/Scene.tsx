@@ -26,7 +26,7 @@ const Scene: React.FC<SceneProps> = ({ projectList }) => {
   // CURRENT: Isometric view (default)
   // const [cameraX, cameraY, cameraZ] = [3, 3.75, 3];
   // const [cameraX, cameraY, cameraZ] = [3, 3.75, 3];
-  const [cameraX, cameraY, cameraZ] = [3, 2.25, 1];
+  const [cameraX, cameraY, cameraZ] = [3, 2.0, 1];
 
   // ===== RESPONSIVE DESIGN =====
   const { width } = useDimensions();
@@ -62,7 +62,8 @@ const Scene: React.FC<SceneProps> = ({ projectList }) => {
         
           // NOW WITH DEGREES!
     rotation-y={degToRad(45)} // Rotate 45 degrees around Y-axis
-    rotation-x={degToRad(-15)} // Rotate -35.26 degrees around X-axis
+    rotation-x={degToRad(-10)} // Rotate -35.26 degrees around X-axis
+    //rotation-z={degToRad(10)} // Rotate 10 degrees around Z-axis
 />
 
       {/* ===== PROJECT DISPLAY AREA ===== */}

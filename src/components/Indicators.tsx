@@ -2,7 +2,8 @@
 
 import { cameraSpeed, scrollOffset } from "@/lib/utils";
 import { motion, useMotionValueEvent } from "framer-motion";
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 
 interface IndicatorsProps {
   itemsCount: number;
@@ -32,8 +33,8 @@ const Indicators: React.FC<IndicatorsProps> = ({ itemsCount }) => {
     >
       {Array.from({ length: itemsCount }, (_, index) => (
         <motion.div
-          key={index}
-          className="w-[2px] rounded-full bg-[#9C9A9A]/50"
+          key={`indicator-${index}`}
+          className="w-[2px] rounded-full bg-[#9C9A9A]/50 dark:bg-[#B0B0B0]/50"
           animate={{
             height: getHeight(index, scrollIndexValue, cameraSpeedZ),
             backgroundColor: getColor(index, scrollIndexValue),
@@ -61,12 +62,23 @@ const getHeight = (
 
 const getColor = (index: number, scrollIndex: number): string => {
   const distance = Math.abs(index - scrollIndex);
-  // if (distance < 0.5) return "rgb(23, 23, 23)"; // Almost black
+  const isDark = document.documentElement.classList.contains('dark');
+  
+  if (isDark) {
+    // Dark theme colors
+    if (distance < 0.5) return "rgba(176, 176, 176, 0.9)";
+    if (distance < 1.5) return "rgba(176, 176, 176, 0.7)";
+    if (distance < 2.5) return "rgba(176, 176, 176, 0.5)";
+    if (distance < 3.5) return "rgba(176, 176, 176, 0.3)";
+    return "rgba(176, 176, 176, 0.2)";
+  }
+  
+  // Light theme colors
   if (distance < 0.5) return "rgba(156, 154, 154, 0.9)";
   if (distance < 1.5) return "rgba(156, 154, 154, 0.7)";
   if (distance < 2.5) return "rgba(156, 154, 154, 0.5)";
   if (distance < 3.5) return "rgba(156, 154, 154, 0.3)";
-  return "rgba(156, 154, 154, 0.2)"; // Lightest color
+  return "rgba(156, 154, 154, 0.2)";
 };
 
 export default Indicators;

@@ -4,12 +4,12 @@ import type { Project } from "@/lib/types";
 import { cameraSpeed } from "@/lib/utils";
 import { fragmentShader, vertexShader } from "@/shaders/shader";
 import { useTexture } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, type ThreeEvent } from "@react-three/fiber";
 import { useMotionValueEvent } from "framer-motion";
 import { motion } from "framer-motion-3d";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
-import type * as THREE from "three";
+import * as THREE from "three";
 
 interface ProjectListItemProps {
   project: Project;
@@ -27,6 +27,9 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
   const { width } = useDimensions();
   const [hoverDisabled, setHoverDisabled] = useState(false);
 
+  // ===== ASPECT RATIO STATE =====
+  const [dimensions, setDimensions] = useState({ width: 1, height: 1 });
+
   useMotionValueEvent(width, "change", (latest) => {
     if (latest < 768) {
       setHoverDisabled(true);
@@ -42,7 +45,7 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
     hover: { 
       x: 0, 
       y: 0.8, // Move up slightly more
-      scale: 1 // Make it bigger but not too much
+      scale: 1.05 // Slightly larger on hover for glass effect
     },
   };
 
@@ -52,7 +55,28 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
   // ===== TEXTURE LOADING =====
   const texture = useTexture(project.image);
 
-  // ===== SHADER UNIFORMS =====
+  // ===== CALCULATE ASPECT RATIO =====
+  useEffect(() => {
+    if (texture?.image) {
+      const img = texture.image;
+      const maxWidth = 1.2; // Maximum width constraint
+      const aspectRatio = img.width / img.height;
+      
+      let finalWidth = maxWidth;
+      let finalHeight = maxWidth / aspectRatio;
+      
+      // If height becomes too large, constraint by height instead
+      const maxHeight = 1; // Maximum height constraint
+      if (finalHeight > maxHeight) {
+        finalHeight = maxHeight;
+        finalWidth = maxHeight * aspectRatio;
+      }
+      
+      setDimensions({ width: finalWidth, height: finalHeight });
+    }
+  }, [texture]);
+
+  // ===== SHADER UNIFORMS WITH GLASS EFFECT =====
   const uniforms = useRef({
     uTexture: { value: texture },
     uOpacity: { value: 0 },
@@ -73,10 +97,10 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
 
       function animate(time: number) {
         const elapsed = time - start;
-        const t = Math.min(elapsed / duration, 0.85);
+        const t = Math.min(elapsed / duration, 1);
 
         const easedValue = easeInOutQuad(t);
-        uniforms.current.uOpacity.value = easedValue;
+        uniforms.current.uOpacity.value = easedValue * 0.95;
 
         if (t < 1) {
           requestAnimationFrame(animate);
@@ -87,9 +111,10 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
     }, index * 75);
   }, [index]);
 
-  // ===== HOVER ANIMATION (currently empty) =====
+  // ===== HOVER ANIMATION =====
   useEffect(() => {
     if (isHover) {
+      // Simple hover effect without glass
     }
   }, [isHover]);
 
@@ -97,16 +122,44 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
     uniforms.current.uCameraSpeed.value = cameraSpeed.get();
   });
 
+  // ===== EVENT HANDLERS =====
+  const handleInteraction = () => {
+    if (uniforms.current.uOpacity.value >= 0.7) {
+      setSelectedProject(project);
+    }
+  };
+
+  const handlePointerEnter = (e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation();
+    if (uniforms.current.uOpacity.value >= 0.7) {
+      document.body.style.cursor = "pointer";
+      setIsHover(true);
+      setHoveredProject(project);
+    }
+  };
+
+  const handlePointerLeave = (e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation();
+    document.body.style.cursor = "auto";
+    setIsHover(false);
+    setHoveredProject(null);
+  };
+
+  const handleClick = (e: ThreeEvent<MouseEvent>) => {
+    e.stopPropagation();
+    handleInteraction();
+  };
+
   return (
     <>
-      {/* ===== MAIN PROJECT MESH ===== */}
+      {/* ===== MAIN PROJECT MESH WITH GLASS BOX EFFECT ===== */}
       <motion.mesh
         key={project.id}
-        position={[0, 0.5, -index * 0.5]}
+        position={[0, 0.5, -index * 0.8]}
         variants={variants}
         initial="initial"
         animate={
-          isHover && uniforms.current.uOpacity.value >= 0.85 && !hoverDisabled
+          isHover && uniforms.current.uOpacity.value >= 0.7 && !hoverDisabled
             ? "hover"
             : "appear"
         }
@@ -121,57 +174,30 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
             damping: 10,
           },
         }}
-        onPointerMove={(e) => {
-          e.stopPropagation();
-          if (uniforms.current.uOpacity.value >= 0.85) {
-            document.body.style.cursor = "pointer";
-            setIsHover(true);
-            setHoveredProject(project);
-          }
-        }}
-        onPointerLeave={(e) => {
-          e.stopPropagation();
-          document.body.style.cursor = "auto";
-          setIsHover(false);
-          setHoveredProject(null);
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          setSelectedProject(project);
-        }}
+        onPointerMove={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+        onClick={handleClick}
         renderOrder={isHover ? 1000 : 0}
       >
-        <planeGeometry args={[1, 1, 8, 8]} />
+        {/* Dynamic BoxGeometry with calculated aspect ratio */}
+        <boxGeometry args={[dimensions.width, dimensions.height, 0.01, 8, 8, 1]} />
         <shaderMaterial
           transparent
           vertexShader={vertexShader}
           fragmentShader={fragmentShader}
           uniforms={uniforms.current}
+          side={THREE.DoubleSide}
         />
       </motion.mesh>
 
-      {/* ===== INVISIBLE HELPER MESH ===== */}
+      {/* ===== INVISIBLE HELPER MESH FOR BETTER INTERACTION ===== */}
       <mesh
-        position={[0, 0.5, -index * 0.5]}
-        onPointerEnter={(e) => {
-          e.stopPropagation();
-          document.body.style.cursor = "pointer";
-          setIsHover(true);
-          setHoveredProject(project);
-        }}
-        onPointerLeave={(e) => {
-          e.stopPropagation();
-          document.body.style.cursor = "auto";
-          setIsHover(false);
-          setHoveredProject(null);
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          setSelectedProject(project);
-        }}
+        position={[0, 0.5, -index * 0.8]}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
       >
-        <planeGeometry args={[1, 1, 8, 8]} />
-        <material visible={false} />
+        <boxGeometry args={[dimensions.width + 0.1, dimensions.height + 0.1, 0.04, 4, 4, 1]} />
+        <meshBasicMaterial visible={false} />
       </mesh>
     </>
   );

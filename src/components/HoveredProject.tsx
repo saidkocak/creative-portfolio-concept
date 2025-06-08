@@ -18,7 +18,7 @@ const HoveredProject = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="text-2xl font-bold mb-1 max-md:text-xl"
+            className="text-2xl font-bold mb-1 max-md:text-xl text-black dark:text-white"
           >
             {hoveredProject.name}
           </motion.h3>

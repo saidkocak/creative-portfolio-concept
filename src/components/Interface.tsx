@@ -3,6 +3,7 @@ import Image from "next/image";
 import HoveredProject from "./HoveredProject";
 import Indicators from "./Indicators";
 import SelectedProject from "./SelectedProject";
+import ThemeToggle from "./ThemeToggle";
 
 interface InterfaceProps {
   itemsCount: number;
@@ -22,18 +23,15 @@ const Interface: React.FC<InterfaceProps> = ({ itemsCount }) => {
           }}
           className="absolute flex items-center gap-4 max-sm:gap-2 top-16 left-16 z-50 max-sm:top-5 max-sm:left-1/2 max-sm:-translate-x-1/2"
         >
-          <Image
-            src="/img/logoblack.svg"
-            width={40}
-            height={40}
-            alt="Architecture Portfolio Logo"
-            className="w-10 h-10 max-sm:w-6 max-sm:h-6"
-          />
-          <h1 className="text-3xl max-md:text-2xl max-sm:text-lg">
-            <span className="font-extrabold">Arch</span>itecture.
+        
+          <h1 className="text-3xl max-md:text-2xl max-sm:text-lg text-black dark:text-white">
+            <span className="font-extrabold">Tamirci</span>Architects
           </h1>
         </motion.div>
       </a>
+
+      {/* THEME TOGGLE */}
+      <ThemeToggle />
 
       {/* SELECTED PROJECT */}
       <SelectedProject />
@@ -44,23 +42,7 @@ const Interface: React.FC<InterfaceProps> = ({ itemsCount }) => {
       {/* INDICATORS */}
       <Indicators itemsCount={itemsCount} />
 
-      {/* BLUR SHAPES */}
-      <div className="pointer-events-none select-none">
-        <Image
-          src="/img/topright.svg"
-          width={682}
-          height={381}
-          alt="Blurry shape on the top right corner"
-          className="absolute top-0 right-0 z-10"
-        />
-        <Image
-          src="/img/bottomleft.svg"
-          width={856}
-          height={433}
-          alt="Blurry shape on the bottom left corner"
-          className="absolute bottom-0 left-0 z-10"
-        />
-      </div>
+     
     </>
   );
 };
