@@ -1,83 +1,175 @@
 ![Thumbnail](public/img/thumbnail.png)
 
-# Creative Portfolio Concept
+# Architecture Portfolio
 
-> A modern 3D interactive portfolio concept built with Next.js, Three.js, and Framer Motion.
+> A stunning 3D interactive architecture portfolio showcasing modern architectural projects with immersive Three.js visualizations.
 
-![NextJS](https://img.shields.io/badge/Next-101010?style=flat&logoSize=small&logo=nextdotjs&logoColor=FFFFFF) ![FramerMotion](https://img.shields.io/badge/FramerMotion-101010?style=flat&logoSize=small&logo=framer&logoColor=FFFFFF) ![R3F](https://img.shields.io/badge/R3F-101010?style=flat&logoSize=small&logo=threedotjs&logoColor=FFFFFF) ![MongoDB](https://img.shields.io/badge/MongoDB-101010?style=flat&logoSize=small&logo=mongodb&logoColor=FFFFFF)
-
----
-
-## Creative Portfolio Concept
-
-This is a creative portfolio concept showcasing modern web technologies including 3D animations, interactive elements, and responsive design. Originally built as a Spotify album visualizer, this concept demonstrates how to create engaging user experiences with Three.js and React.
-
-## Features
-
-- 3D interactive visualizations using React Three Fiber
-- Smooth animations with Framer Motion
-- Modern responsive design with Tailwind CSS
-- TypeScript for type safety
-- MongoDB integration for data persistence
+![NextJS](https://img.shields.io/badge/Next-101010?style=flat&logoSize=small&logo=nextdotjs&logoColor=FFFFFF) ![FramerMotion](https://img.shields.io/badge/FramerMotion-101010?style=flat&logoSize=small&logo=framer&logoColor=FFFFFF) ![R3F](https://img.shields.io/badge/R3F-101010?style=flat&logoSize=small&logo=threedotjs&logoColor=FFFFFF) ![TypeScript](https://img.shields.io/badge/TypeScript-101010?style=flat&logoSize=small&logo=typescript&logoColor=FFFFFF)
 
 ---
 
-## How to run locally
+## ✨ Features
 
-### 0 ‣ Pre-requisites
-
-- [Node.js](https://nodejs.org/en/download/)
-- Clone this repository
-
----
-
-### 1 ‣ Set up environment variables (Optional)
-
-Create a `.env` file in the root of the project if you want to use the Spotify integration:
-
-```bash
-# Spotify API (Optional)
-SPOTIFY_CLIENT_ID="YOUR_SPOTIFY_CLIENT_ID"
-SPOTIFY_CLIENT_SECRET="YOUR_SPOTIFY_CLIENT_SECRET"
-
-# App URLs
-REDIRECT_URI="http://localhost:3000/api/callback"
-NEXT_PUBLIC_BASE_URL="http://localhost:3000"
-```
+- **3D Interactive Visualization** - Explore architecture projects in an immersive 3D environment
+- **Smooth Scroll Experience** - Navigate through projects with fluid scroll-based animations
+- **Responsive Design** - Optimized for desktop, tablet, and mobile devices
+- **Project Showcase** - Display residential, commercial, and public architecture projects
+- **Modern UI/UX** - Clean interface with smooth animations and transitions
+- **TypeScript Support** - Fully typed for better development experience
+- **Performance Optimized** - Adaptive rendering and efficient 3D performance
 
 ---
 
-### 2 ‣ Run the project
+## 🏗️ Architecture Projects
 
-This app was built with Next.js, so you can run it with the following commands:
+The portfolio showcases diverse architectural projects including:
 
-```bash
-# Install dependencies
-npm install
+- **Residential**: Villas, lofts, eco-residences, and luxury penthouses
+- **Commercial**: Corporate offices, tech campuses, and retail spaces  
+- **Public**: Cultural centers, libraries, community hubs, and urban plazas
+- **Hospitality**: Boutique hotels and mountain lodges
+- **Specialized**: Healthcare facilities, educational spaces, and experimental designs
 
-# Run the project
-npm run dev
-```
+Each project features:
+- High-quality architectural imagery
+- Project details (location, year, type)
+- Descriptive information about the design concept
 
-- The project should now be running on `http://localhost:3000`
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/download/) (v18 or higher)
+- npm or yarn package manager
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/saidkocak/creative-portfolio-concept.git
+   cd creative-portfolio-concept
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Navigate to `http://localhost:3000` to view the portfolio
 
 ![Screenshot](public/img/screenshot.png)
 
 ---
 
-### Bonus ‣ MongoDB
+## 🛠️ Tech Stack
 
-To store user data and create share links, you can use a MongoDB database. Add the following variables to your `.env` file:
+- **Frontend Framework**: Next.js 14 with App Router
+- **3D Graphics**: Three.js with React Three Fiber (R3F)
+- **Animations**: Framer Motion & Framer Motion 3D
+- **Styling**: Tailwind CSS
+- **Language**: TypeScript
+- **Development**: ESLint for code quality
 
-```bash
-# MongoDB
-MONGODB_URI="YOUR_MONGODB_URI"
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── app/              # Next.js app router pages
+├── components/       # React components
+│   ├── Interface.tsx     # Main UI overlay
+│   ├── Scene.tsx         # 3D scene setup
+│   ├── ProjectListItem.tsx # Individual project display
+│   └── ...
+├── context/          # React context providers
+├── hooks/           # Custom React hooks
+├── lib/             # Utilities and data
+└── shaders/         # Custom shaders for 3D effects
 ```
 
 ---
 
-## Contributing
+## 🎨 Customization
 
-Feel free to fork this project and make it your own! This is meant to be a creative starting point for portfolio websites.
+### Adding New Projects
+
+1. Add your project images to `public/img/arch-imgs/`
+2. Update the `ARCHITECTURE_PROJECTS` array in `src/lib/types.ts`:
+
+```typescript
+{
+  id: "024",
+  name: "Your Project Name",
+  type: "Project Type",
+  location: "City, Country",
+  year: "2024",
+  image: "/img/arch-imgs/your-image.png",
+  description: "Brief project description"
+}
+```
+
+### Customizing the 3D Scene
+
+- Camera settings: Edit `src/components/Scene.tsx`
+- 3D positioning: Modify `ProjectListItem.tsx`
+- Animations: Update Framer Motion configurations
+
+---
+
+## 📱 Responsive Design
+
+The portfolio is fully responsive with optimized experiences for:
+- **Desktop**: Full 3D interactions with mouse controls
+- **Tablet**: Touch-friendly navigation with optimized zoom levels
+- **Mobile**: Streamlined interface with adaptive performance
+
+---
+
+## 🚀 Deployment
+
+### Deploy to Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Connect your repository to [Vercel](https://vercel.com)
+3. Deploy with zero configuration
+
+### Build for Production
+
+```bash
+npm run build
+npm start
+```
+
+---
+
+## 🤝 Contributing
+
+This architecture portfolio concept is open for contributions:
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+Feel free to customize this template for your own architectural portfolio!
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+**Built with ❤️ using Next.js, Three.js, and modern web technologies**
 
 ✦ ✶ ✷
