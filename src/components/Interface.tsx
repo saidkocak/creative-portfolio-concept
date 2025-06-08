@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import HoveredTrack from "./HoveredTrack";
+import HoveredProject from "./HoveredProject";
 import Indicators from "./Indicators";
-import SelectedTrack from "./SelectedTrack";
+import SelectedProject from "./SelectedProject";
 
 interface InterfaceProps {
   itemsCount: number;
@@ -26,20 +26,20 @@ const Interface: React.FC<InterfaceProps> = ({ itemsCount }) => {
             src="/img/logoblack.svg"
             width={40}
             height={40}
-            alt="Records. Logo"
+            alt="Architecture Portfolio Logo"
             className="w-10 h-10 max-sm:w-6 max-sm:h-6"
           />
           <h1 className="text-3xl max-md:text-2xl max-sm:text-lg">
-            <span className="font-extrabold">Re</span>cords.
+            <span className="font-extrabold">Arch</span>itecture.
           </h1>
         </motion.div>
       </a>
 
-      {/* SELECTED TRACK */}
-      <SelectedTrack />
+      {/* SELECTED PROJECT */}
+      <SelectedProject />
 
-      {/* HOVERED TRACK */}
-      <HoveredTrack />
+      {/* HOVERED PROJECT */}
+      <HoveredProject />
 
       {/* INDICATORS */}
       <Indicators itemsCount={itemsCount} />

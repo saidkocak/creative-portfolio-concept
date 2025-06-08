@@ -1,32 +1,34 @@
 import useDimensions from "@/hooks/useDimensions";
-import { Track } from "@/lib/types";
+import type { Project } from "@/lib/types";
 import {
   AdaptiveDpr,
   AdaptiveEvents,
   OrthographicCamera,
-  useTexture,
 } from "@react-three/drei";
 import { useMotionValueEvent } from "framer-motion";
 import { useRef, useState } from "react";
-import * as THREE from "three";
+import type * as THREE from "three";
 import CustomControls from "./CustomControls";
-import TrackListItem from "./TrackListItem";
+import ProjectListItem from "./ProjectListItem";
+import { degToRad } from "three/src/math/MathUtils.js";
 
 interface SceneProps {
-  trackList: Track[];
+  projectList: Project[];
 }
 
-const Scene: React.FC<SceneProps> = ({ trackList }) => {
-  // REFS
+const Scene: React.FC<SceneProps> = ({ projectList }) => {
+  // ===== CAMERA SETUP =====
   const cameraRef = useRef<THREE.OrthographicCamera>(null);
 
-  // POSITION INITIALE DE LA CAMERA
-  const [cameraX, cameraY, cameraZ] = [3, 3.75, 3];
+  // Set the initial camera position in 3D space [x, y, z]
+  // x: left/right, y: up/down, z: forward/back
+  
+  // CURRENT: Isometric view (default)
+  // const [cameraX, cameraY, cameraZ] = [3, 3.75, 3];
+  // const [cameraX, cameraY, cameraZ] = [3, 3.75, 3];
+  const [cameraX, cameraY, cameraZ] = [3, 2.25, 1];
 
-  // ALPHAMAP TEXTURE POUR LES TRACKS
-  const alphaMapTexture = useTexture("/textures/alphaMap.webp");
-
-  // WINDOW DIMENSIONS
+  // ===== RESPONSIVE DESIGN =====
   const { width } = useDimensions();
   const [innerWidth, setInnerWidth] = useState<number>(width.get());
 
@@ -36,38 +38,51 @@ const Scene: React.FC<SceneProps> = ({ trackList }) => {
 
   return (
     <>
-      {/* PERFORMANCES */}
+      {/* ===== PERFORMANCE OPTIMIZATIONS ===== */}
       <AdaptiveDpr pixelated />
       <AdaptiveEvents />
 
+      {/* ===== CAMERA SETUP ===== */}
       <OrthographicCamera
         ref={cameraRef}
         makeDefault
-        // zoom={275}
+        // Dynamic zoom based on screen size:
+        // Mobile (< 768px): zoom 200 (closer)
+        // Large screens (> 1500px): zoom 300 (further)
+        // Default: zoom 275 (medium)
         zoom={innerWidth < 768 ? 200 : innerWidth > 1500 ? 300 : 275}
-        near={2}
-        far={10}
+        near={0.0001}
+        far={1000}
         position={[cameraX, cameraY, cameraZ]}
         rotation-order="YXZ"
-        rotation-y={Math.PI / 4}
-        rotation-x={Math.atan(-1 / Math.sqrt(2))}
-      />
+        
+          // // CURRENT: Isometric rotations
+          // rotation-y={Math.PI / 3}
+          // rotation-x={Math.atan(-1 / Math.sqrt(2))}
+        
+          // NOW WITH DEGREES!
+    rotation-y={degToRad(45)} // Rotate 45 degrees around Y-axis
+    rotation-x={degToRad(-15)} // Rotate -35.26 degrees around X-axis
+/>
 
+      {/* ===== PROJECT DISPLAY AREA ===== */}
       <group>
-        {/* TRACKS */}
-        {trackList.map((track, index) => {
+        {projectList.map((project, index) => {
           return (
-            <TrackListItem
-              key={track.id}
-              track={track}
+            <ProjectListItem
+              key={project.id}
+              project={project}
               index={index}
-              alphaMapTexture={alphaMapTexture}
             />
           );
         })}
       </group>
 
-      <CustomControls cameraRef={cameraRef} itemsCount={trackList.length} />
+      {/* ===== CAMERA CONTROLS ===== */}
+      <CustomControls
+        cameraRef={cameraRef}
+        itemsCount={projectList.length}
+      />
     </>
   );
 };
