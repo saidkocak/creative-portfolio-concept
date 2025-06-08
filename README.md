@@ -1,10 +1,10 @@
-![Thumbnail](public/img/thumbnail.png)
+
 
 # Architecture Portfolio
 
 > A stunning 3D interactive architecture portfolio showcasing modern architectural projects with immersive Three.js visualizations.
 
-![NextJS](https://img.shields.io/badge/Next-101010?style=flat&logoSize=small&logo=nextdotjs&logoColor=FFFFFF) ![FramerMotion](https://img.shields.io/badge/FramerMotion-101010?style=flat&logoSize=small&logo=framer&logoColor=FFFFFF) ![R3F](https://img.shields.io/badge/R3F-101010?style=flat&logoSize=small&logo=threedotjs&logoColor=FFFFFF) ![TypeScript](https://img.shields.io/badge/TypeScript-101010?style=flat&logoSize=small&logo=typescript&logoColor=FFFFFF)
+
 
 ---
 
@@ -65,7 +65,6 @@ Each project features:
 4. **Open your browser**
    Navigate to `http://localhost:3000` to view the portfolio
 
-![Screenshot](public/img/screenshot.png)
 
 ---
 
