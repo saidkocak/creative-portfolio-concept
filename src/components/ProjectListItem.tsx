@@ -3,7 +3,7 @@ import useDimensions from "@/hooks/useDimensions";
 import type { Project } from "@/lib/types";
 import { cameraSpeed } from "@/lib/utils";
 import { fragmentShader, vertexShader } from "@/shaders/shader";
-import { useTexture } from "@react-three/drei";
+import { useTexture, Text } from "@react-three/drei";
 import { useFrame, type ThreeEvent } from "@react-three/fiber";
 import { useMotionValueEvent } from "framer-motion";
 import { motion } from "framer-motion-3d";
@@ -152,8 +152,8 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
 
   return (
     <>
-      {/* ===== MAIN PROJECT MESH WITH GLASS BOX EFFECT ===== */}
-      <motion.mesh
+      {/* ===== MAIN PROJECT GROUP WITH ANIMATION ===== */}
+      <motion.group
         key={project.id}
         position={[0, 0.5, -index * 0.8]}
         variants={variants}
@@ -174,21 +174,38 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
             damping: 10,
           },
         }}
-        onPointerMove={handlePointerEnter}
-        onPointerLeave={handlePointerLeave}
-        onClick={handleClick}
-        renderOrder={isHover ? 1000 : 0}
       >
-        {/* Dynamic BoxGeometry with calculated aspect ratio */}
-        <boxGeometry args={[dimensions.width, dimensions.height, 0.01, 8, 8, 1]} />
-        <shaderMaterial
-          transparent
-          vertexShader={vertexShader}
-          fragmentShader={fragmentShader}
-          uniforms={uniforms.current}
-          side={THREE.DoubleSide}
-        />
-      </motion.mesh>
+        {/* ===== HOVER TEXT - ID AND TITLE ===== */}
+        {isHover && uniforms.current.uOpacity.value >= 0.7 && !hoverDisabled && (
+          <Text
+            position={[0, dimensions.height / 2 + 0.05, 0]}
+            fontSize={0.06}
+            color="white"
+            anchorX="center"
+            anchorY="bottom"
+          >
+            {`${project.id} - ${project.name}`}
+          </Text>
+        )}
+
+        {/* ===== MAIN PROJECT MESH WITH GLASS BOX EFFECT ===== */}
+        <mesh
+          onPointerMove={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
+          onClick={handleClick}
+          renderOrder={isHover ? 1000 : 0}
+        >
+          {/* Dynamic BoxGeometry with calculated aspect ratio */}
+          <boxGeometry args={[dimensions.width, dimensions.height, 0.01, 8, 8, 1]} />
+          <shaderMaterial
+            transparent
+            vertexShader={vertexShader}
+            fragmentShader={fragmentShader}
+            uniforms={uniforms.current}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      </motion.group>
 
       {/* ===== INVISIBLE HELPER MESH FOR BETTER INTERACTION ===== */}
       <mesh

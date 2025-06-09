@@ -39,7 +39,7 @@ const SelectedProject = () => {
           </motion.div>
 
           {/* PROJECT NAME AND DETAILS */}
-          {/* <div className="flex flex-col">
+          <div className="flex flex-col">
             <motion.h3
               key={`${selectedProject.id}${selectedProject.name}`}
               initial={{ opacity: 0, y: 10 }}
@@ -72,7 +72,7 @@ const SelectedProject = () => {
             >
               {selectedProject.year} • {selectedProject.description}
             </motion.p>
-          </div> */}
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
