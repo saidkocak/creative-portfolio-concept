@@ -13,9 +13,7 @@ const ProjectPage = () => {
   const params = useParams();
   const project = ARCHITECTURE_PROJECTS.find((p) => p.id === params.id);
 
-  // Add console logging for debugging
-  console.log('Project ID:', params.id);
-  console.log('Found project:', project);
+ 
 
   if (!project) {
     return <div>Project not found</div>;
@@ -27,24 +25,12 @@ const ProjectPage = () => {
     { label: "Architects", value: "Working community Hämmerli & Caccia Architetti Sagl, Luca Pessina Architetti SA" },
     { label: "Civil engineer", value: "Schnetzer Puskas Ingenieure AG" },
     { label: "RCVS plant designers", value: "Erisel SA" },
-    { label: "Building physics", value: "IFEC ingegneria SA" },
-    { label: "Fire protection", value: "Erisel SA" },
-    { label: "Electrical engineering", value: "Elettroconsulenze Solcà SA" },
-    { label: "Landscape architecture", value: "MOFA urban landscape studio" },
     { label: "Images", value: "Stefano Zeni" },
     { label: "Model", value: "Marchesoni models" },
   ];
 
-  // Generate project images based on the project ID
-  const projectImages = [
-    `/img/arch-imgs/${project.id}.png`,
-    `/img/arch-imgs/${String(Number.parseInt(project.id) + 1).padStart(3, '0')}.png`,
-    `/img/arch-imgs/${String(Number.parseInt(project.id) + 2).padStart(3, '0')}.png`,
-    `/img/arch-imgs/${String(Number.parseInt(project.id) + 3).padStart(3, '0')}.png`,
-  ];
-
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-background text-primary">
       {/* Hero Section */}
       <section className="relative h-[80vh] w-full">
         <div className="absolute inset-0">
@@ -64,14 +50,30 @@ const ProjectPage = () => {
       </section>
 
       {/* Project Description Section */}
-      <section className="container mx-auto px-4 py-16">
+      <section className="mx-auto px-4 py-16 w-full">
         <div className="grid grid-cols-4 gap-8">
           {/* Main Content Column */}
           <div className="col-span-3">
-            <h2 className="text-3xl font-bold mb-6">About the Project</h2>
-            <p className="text-lg leading-relaxed text-gray-300">
-              {project.description}
+          
+            <p className="w-4/5 text-md leading-relaxed text-gray-300">
+              {project.longDescription}
             </p>
+            {/* Images Column */}
+          <div className="py-16">
+            <h2 className="text-3xl font-bold mb-6">Project Gallery</h2>
+            <div className="grid grid-cols-1 gap-4">
+              {project.visuals.map((image, index) => (
+                <div key={`visual-${project.id}-${index}`} className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={image}
+                    alt={`Project visual ${index + 1}`}
+                    fill
+                    className="object-cover transition-transform duration-300"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
           </div>
 
           {/* Info Column */}
@@ -93,22 +95,7 @@ const ProjectPage = () => {
       {/* Project Images Section */}
       <section className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-4 gap-8">
-          {/* Images Column */}
-          <div className="col-span-3">
-            <h2 className="text-3xl font-bold mb-6">Project Gallery</h2>
-            <div className="grid grid-cols-2 gap-4">
-              {projectImages.map((image) => (
-                <div key={image} className="relative aspect-[4/3] overflow-hidden rounded-lg">
-                  <Image
-                    src={image}
-                    alt={`Project image ${image.split('/').pop()?.replace('.png', '')}`}
-                    fill
-                    className="object-cover transition-transform duration-300 hover:scale-105"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          
 
           {/* Empty Column */}
           <div className="col-span-1" />

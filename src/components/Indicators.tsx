@@ -29,7 +29,7 @@ const Indicators: React.FC<IndicatorsProps> = ({ itemsCount }) => {
         filter: "blur(0px)",
         transition: { delay: 0.8, duration: 1, ease: "easeOut" },
       }}
-      className="absolute z-50 bottom-16 right-16 flex flex-col items-center gap-2 max-sm:bottom-5 max-sm:right-1/2 max-sm:translate-x-1/2"
+      className="absolute z-50 bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 max-sm:bottom-5 max-sm:right-1/2 max-sm:translate-x-1/2"
     >
       <motion.span
         initial={{ opacity: 0, y: 10 }}
@@ -43,18 +43,22 @@ const Indicators: React.FC<IndicatorsProps> = ({ itemsCount }) => {
         Scroll
       </motion.span>
       <div className="flex h-8 items-center gap-2">
-        {Array.from({ length: itemsCount }, (_, index) => (
-          <motion.div
-            key={`indicator-${index}`}
-            className="w-[2px] rounded-full bg-[#9C9A9A]/50 dark:bg-[#B0B0B0]/50"
-            animate={{
-              height: getHeight(index, scrollIndexValue, cameraSpeedZ),
-              backgroundColor: getColor(index, scrollIndexValue),
-            }}
-            // transition={{ type: "spring", stiffness: 2000, damping: 100 }}
-            transition={{ duration: 0.1, ease: "linear" }}
-          />
-        ))}
+        {/* eslint-disable-next-line react/no-array-index-key */}
+        {Array.from({ length: itemsCount }, (_, index) => {
+          const indicatorId = `indicator-${itemsCount}-${index}`;
+          return (
+            <motion.div
+              key={indicatorId}
+              className="w-[2px] rounded-full bg-[#9C9A9A]/50 dark:bg-[#B0B0B0]/50"
+              animate={{
+                height: getHeight(index, scrollIndexValue, cameraSpeedZ),
+                backgroundColor: getColor(index, scrollIndexValue),
+              }}
+              // transition={{ type: "spring", stiffness: 2000, damping: 100 }}
+              transition={{ duration: 0.1, ease: "linear" }}
+            />
+          );
+        })}
       </div>
     </motion.div>
   );

@@ -10,7 +10,7 @@ const HoveredProject = () => {
       {hoveredProject && (
         <div
           key={hoveredProject.id}
-          className="absolute top-28 left-16 flex flex-col items-start z-50 max-sm:hidden"
+          className="absolute top-28 left-1/2 -translate-x-1/2 flex flex-col items-center z-50 max-sm:top-16 max-sm:left-1/2 max-sm:-translate-x-1/2 max-sm:px-4 max-sm:w-full max-sm:flex max-sm:justify-center"
         >
           <motion.h3
             key={hoveredProject.id + hoveredProject.name}
@@ -18,7 +18,7 @@ const HoveredProject = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="text-2xl font-bold mb-1 max-md:text-xl text-black dark:text-white"
+            className="text-2xl font-bold mb-1 max-md:text-xl text-black dark:text-white text-center"
           >
             {hoveredProject.name}
           </motion.h3>
@@ -28,7 +28,7 @@ const HoveredProject = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
-            className="text-[#9C9A9A] text-lg max-md:text-base mb-2"
+            className="text-[#9C9A9A] text-lg max-md:text-base mb-2 text-center"
           >
             {`${hoveredProject.type} • ${hoveredProject.location} • ${hoveredProject.year}`}
           </motion.p>
@@ -38,7 +38,7 @@ const HoveredProject = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.3, delay: 0.2, ease: "easeOut" }}
-            className="text-[#7A7A7A] text-sm max-w-xs text-left"
+            className="text-[#7A7A7A] text-sm max-w-xs text-center max-sm:max-w-none max-sm:px-2"
           >
             {hoveredProject.description}
           </motion.p>

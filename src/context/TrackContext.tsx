@@ -7,8 +7,10 @@ import { createContext, useContext, useState } from "react";
 interface ProjectContextType {
   hoveredProject: Project | null;
   selectedProject: Project | null;
+  activeProjectIndex: number; // For scroll-based activation on mobile
   setHoveredProject: (project: Project | null) => void;
   setSelectedProject: (project: Project | null) => void;
+  setActiveProjectIndex: (index: number) => void;
 }
 
 // Créez le contexte
@@ -20,14 +22,17 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [activeProjectIndex, setActiveProjectIndex] = useState<number>(0); // Start with first project active
 
   return (
     <ProjectContext.Provider
       value={{
         hoveredProject,
         selectedProject,
+        activeProjectIndex,
         setHoveredProject,
         setSelectedProject,
+        setActiveProjectIndex,
       }}
     >
       {children}
