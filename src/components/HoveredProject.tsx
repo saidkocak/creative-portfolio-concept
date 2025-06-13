@@ -10,7 +10,7 @@ const HoveredProject = () => {
       {hoveredProject && (
         <div
           key={hoveredProject.id}
-          className="absolute bottom-28 right-16 flex flex-col items-end z-50 max-sm:hidden"
+          className="absolute top-28 left-16 flex flex-col items-start z-50 max-sm:hidden"
         >
           <motion.h3
             key={hoveredProject.id + hoveredProject.name}
@@ -38,7 +38,7 @@ const HoveredProject = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.3, delay: 0.2, ease: "easeOut" }}
-            className="text-[#7A7A7A] text-sm max-w-xs text-right"
+            className="text-[#7A7A7A] text-sm max-w-xs text-left"
           >
             {hoveredProject.description}
           </motion.p>

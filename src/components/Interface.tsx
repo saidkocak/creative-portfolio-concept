@@ -34,7 +34,7 @@ const Interface: React.FC<InterfaceProps> = ({ itemsCount }) => {
       <ThemeToggle />
 
       {/* SELECTED PROJECT */}
-      <SelectedProject />
+      {/* <SelectedProject /> */}
 
       {/* HOVERED PROJECT */}
       <HoveredProject />

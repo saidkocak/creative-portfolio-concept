@@ -10,6 +10,7 @@ import { useRef, useState } from "react";
 import type * as THREE from "three";
 import CustomControls from "./CustomControls";
 import ProjectListItem from "./ProjectListItem";
+import KeyboardNavigation from "./KeyboardNavigation";
 import { degToRad } from "three/src/math/MathUtils.js";
 
 interface SceneProps {
@@ -26,7 +27,7 @@ const Scene: React.FC<SceneProps> = ({ projectList }) => {
   // CURRENT: Isometric view (default)
   // const [cameraX, cameraY, cameraZ] = [3, 3.75, 3];
   // const [cameraX, cameraY, cameraZ] = [3, 3.75, 3];
-  const [cameraX, cameraY, cameraZ] = [3, 2.0, 1];
+  const [cameraX, cameraY, cameraZ] = [3, 1.75, 1];
 
   // ===== RESPONSIVE DESIGN =====
   const { width } = useDimensions();
@@ -38,6 +39,7 @@ const Scene: React.FC<SceneProps> = ({ projectList }) => {
 
   return (
     <>
+      <KeyboardNavigation />
       {/* ===== PERFORMANCE OPTIMIZATIONS ===== */}
       <AdaptiveDpr pixelated />
       <AdaptiveEvents />
@@ -50,7 +52,7 @@ const Scene: React.FC<SceneProps> = ({ projectList }) => {
         // Mobile (< 768px): zoom 200 (closer)
         // Large screens (> 1500px): zoom 300 (further)
         // Default: zoom 275 (medium)
-        zoom={innerWidth < 768 ? 200 : innerWidth > 1500 ? 300 : 275}
+        zoom={innerWidth < 768 ? 200 : innerWidth > 1500 ? 300 : 300}
         near={0.0001}
         far={1000}
         position={[cameraX, cameraY, cameraZ]}

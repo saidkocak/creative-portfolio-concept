@@ -10,6 +10,7 @@ import { motion } from "framer-motion-3d";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { useRouter } from "next/navigation";
 
 interface ProjectListItemProps {
   project: Project;
@@ -20,6 +21,7 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
   project,
   index,
 }) => {
+  const router = useRouter();
   // ===== HOVER STATE =====
   const [isHover, setIsHover] = useState(false);
 
@@ -43,9 +45,9 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
     initial: { x: 0, y: 0, scale: 1 },
     appear: { x: 0, y: 0.5, scale: 1 },
     hover: { 
-      x: 0, 
-      y: 0.8, // Move up slightly more
-      scale: 1.05 // Slightly larger on hover for glass effect
+      x: 0.2, 
+      y: 1, // Move up slightly more
+      scale: 1.15 // Slightly larger on hover for glass effect
     },
   };
 
@@ -126,6 +128,7 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
   const handleInteraction = () => {
     if (uniforms.current.uOpacity.value >= 0.7) {
       setSelectedProject(project);
+      router.push(`/project/${project.id}`);
     }
   };
 
@@ -169,25 +172,12 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({
           scale: { type: "spring", stiffness: 250, damping: 25 },
           default: {
             duration: 1,
-            delay: index * 0.05,
+            delay: index * 0.5,
             type: "spring",
             damping: 10,
           },
         }}
       >
-        {/* ===== HOVER TEXT - ID AND TITLE ===== */}
-        {isHover && uniforms.current.uOpacity.value >= 0.7 && !hoverDisabled && (
-          <Text
-            position={[0, dimensions.height / 2 + 0.05, 0]}
-            fontSize={0.06}
-            color="white"
-            anchorX="center"
-            anchorY="bottom"
-          >
-            {`${project.id} - ${project.name}`}
-          </Text>
-        )}
-
         {/* ===== MAIN PROJECT MESH WITH GLASS BOX EFFECT ===== */}
         <mesh
           onPointerMove={handlePointerEnter}
